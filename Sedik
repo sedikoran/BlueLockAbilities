@@ -1,4 +1,6 @@
--- Blue Lock: Rivals Abilities GUI Script
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local abilityRemote = ReplicatedStorage:WaitForChild("ability")
+local player = game.Players.LocalPlayer
 
 local abilities = {
     "Perfect Pass",
@@ -16,48 +18,70 @@ local abilities = {
     "Goalkeeper Save",
     "Counter Attack",
     "Wall Pass",
+    "Direct Shot",
+    "Metavision",
+    "Kaiser Impact",
+    "Emperor’s Route",
+    "Copy",
+    "Offensive Mode",
+    "Defensive Mode",
+    "Planet Hotline",
+    "Laser",
+    "Stealthy Steps",
+    "Ninja Dribble",
+    "Ninja Shot",
+    "Scorpion",
+    "Diving Header",
+    "Fast Reactions",
+    "Handstand",
+    "Bear Claw",
+    "Speedster",
+    "Fadeaway",
+    "Final Shot",
+    "Spatial Awareness",
+    "Curved Pass",
+    "Monster Trance",
+    "Genius Killing Machine",
+    "Two-Gun Volley",
+    "True Direct Shot",
+    "Complete Awareness"
 }
 
-local player = game.Players.LocalPlayer
-local mouse = player:GetMouse()
+local gui = Instance.new("ScreenGui")
+gui.Name = "AbilitiesGUI"
+gui.Parent = player:WaitForChild("PlayerGui")
 
--- Create ScreenGui
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "BlueLockAbilitiesGUI"
-screenGui.Parent = player:WaitForChild("PlayerGui")
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 150, 0, 40)
+toggleButton.Position = UDim2.new(0, 10, 0, 10)
+toggleButton.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.Text = "Show Abilities"
+toggleButton.Parent = gui
 
--- Create Frame
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 250, 0, 400)
-frame.Position = UDim2.new(0, 10, 0, 50)
+frame.Size = UDim2.new(0, 200, 0, #abilities * 35)
+frame.Position = UDim2.new(0, 10, 0, 60)
 frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-frame.BorderSizePixel = 0
-frame.Parent = screenGui
+frame.Visible = false
+frame.Parent = gui
 
--- UIListLayout for buttons
-local layout = Instance.new("UIListLayout")
-layout.Parent = frame
-layout.SortOrder = Enum.SortOrder.LayoutOrder
-layout.Padding = UDim.new(0, 5)
-
--- Function to activate ability (placeholder)
-local function activateAbility(name)
-    -- هنا تضع الكود الخاص بتفعيل القدرة حسب طريقة اللعبة
-    print("Activating ability:", name)
-    -- مثال (تغيير حسب اللعبة):
-    -- game:GetService("ReplicatedStorage").Events.ActivateAbility:FireServer(name)
-end
-
--- Create buttons for each ability
 for i, abilityName in ipairs(abilities) do
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(1, -10, 0, 30)
+    btn.Position = UDim2.new(0, 5, 0, (i - 1) * 35 + 5)
     btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     btn.TextColor3 = Color3.fromRGB(255, 255, 255)
     btn.Text = abilityName
     btn.Parent = frame
 
     btn.MouseButton1Click:Connect(function()
-        activateAbility(abilityName)
+        abilityRemote:FireServer(abilityName)
+        print("Activated ability:", abilityName)
     end)
 end
+
+toggleButton.MouseButton1Click:Connect(function()
+    frame.Visible = not frame.Visible
+    toggleButton.Text = frame.Visible and "Hide Abilities" or "Show Abilities"
+end)
