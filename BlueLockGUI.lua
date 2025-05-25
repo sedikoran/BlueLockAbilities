@@ -1,4 +1,3 @@
--- قائمة القدرات
 local abilities = {
     "Perfect Pass", "Super Goal", "Igaguri", "Kaiser Style", "White Rondo",
     "Slide Tackle", "One Touch", "Heel Pass", "Dummy", "Overhead Kick",
@@ -12,44 +11,42 @@ local abilities = {
 }
 
 local player = game.Players.LocalPlayer
-local replicatedStorage = game:GetService("ReplicatedStorage")
-local abilityEvent = replicatedStorage:WaitForChild("Events"):WaitForChild("Ability")
+local repStorage = game:GetService("ReplicatedStorage")
+local abilityEvent = repStorage:WaitForChild("Events"):WaitForChild("Ability")
 
 local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-gui.Name = "ShinzouAutoGUI"
+gui.Name = "AbilitiesGUI"
 
-local toggleButton = Instance.new("TextButton")
-toggleButton.Size = UDim2.new(0, 150, 0, 40)
-toggleButton.Position = UDim2.new(0, 10, 0, 10)
-toggleButton.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleButton.Text = "Show Abilities"
-toggleButton.Parent = gui
+local toggleBtn = Instance.new("TextButton", gui)
+toggleBtn.Size = UDim2.new(0, 150, 0, 40)
+toggleBtn.Position = UDim2.new(0, 10, 0, 10)
+toggleBtn.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
+toggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleBtn.Text = "Show Abilities"
 
-local scrollFrame = Instance.new("ScrollingFrame")
+local scrollFrame = Instance.new("ScrollingFrame", gui)
 scrollFrame.Size = UDim2.new(0, 200, 0, 300)
 scrollFrame.Position = UDim2.new(0, 10, 0, 60)
-scrollFrame.CanvasSize = UDim2.new(0, 0, 0, #abilities * 35)
 scrollFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 scrollFrame.Visible = false
+scrollFrame.CanvasSize = UDim2.new(0, 0, 0, #abilities * 35)
 scrollFrame.ScrollBarThickness = 6
-scrollFrame.Parent = gui
 
 for i, abilityName in ipairs(abilities) do
-    local button = Instance.new("TextButton", scrollFrame)
-    button.Size = UDim2.new(1, -10, 0, 30)
-    button.Position = UDim2.new(0, 5, 0, (i - 1) * 35 + 5)
-    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.Text = abilityName
+    local btn = Instance.new("TextButton", scrollFrame)
+    btn.Size = UDim2.new(1, -10, 0, 30)
+    btn.Position = UDim2.new(0, 5, 0, (i - 1) * 35 + 5)
+    btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.Text = abilityName
 
-    button.MouseButton1Click:Connect(function()
+    btn.MouseButton1Click:Connect(function()
         abilityEvent:FireServer(abilityName)
         print("Activated ability:", abilityName)
     end)
 end
 
-toggleButton.MouseButton1Click:Connect(function()
+toggleBtn.MouseButton1Click:Connect(function()
     scrollFrame.Visible = not scrollFrame.Visible
-    toggleButton.Text = scrollFrame.Visible and "Hide Abilities" or "Show Abilities"
+    toggleBtn.Text = scrollFrame.Visible and "Hide Abilities" or "Show Abilities"
 end)
