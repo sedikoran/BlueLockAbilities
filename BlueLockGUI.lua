@@ -1,5 +1,5 @@
 -- Blue Lock: Rivals Abilities GUI with Toggle Button
-
+_G.AbilityConfig = {"Perfect Pass",}
 local abilities = {
     "Perfect Pass",
     "Super Goal",
