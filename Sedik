@@ -60,20 +60,28 @@ toggleButton.Text = "Show Abilities"
 toggleButton.Parent = gui
 
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 200, 0, #abilities * 35)
+frame.Size = UDim2.new(0, 220, 0, 250)
 frame.Position = UDim2.new(0, 10, 0, 60)
 frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 frame.Visible = false
 frame.Parent = gui
 
+local scrollingFrame = Instance.new("ScrollingFrame")
+scrollingFrame.Size = UDim2.new(1, -10, 1, -10)
+scrollingFrame.Position = UDim2.new(0, 5, 0, 5)
+scrollingFrame.BackgroundTransparency = 1
+scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, #abilities * 35 + 10)
+scrollingFrame.ScrollBarThickness = 8
+scrollingFrame.Parent = frame
+
 for i, abilityName in ipairs(abilities) do
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(1, -10, 0, 30)
-    btn.Position = UDim2.new(0, 5, 0, (i - 1) * 35 + 5)
+    btn.Position = UDim2.new(0, 5, 0, (i - 1) * 35)
     btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     btn.TextColor3 = Color3.fromRGB(255, 255, 255)
     btn.Text = abilityName
-    btn.Parent = frame
+    btn.Parent = scrollingFrame
 
     btn.MouseButton1Click:Connect(function()
         abilityRemote:FireServer(abilityName)
